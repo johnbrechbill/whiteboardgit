@@ -10,6 +10,8 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 
+last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
+
 # File path for storing the counter
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
 
