@@ -44,10 +44,6 @@ identification_prefix = read_identification()
 # Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
 image_mark = f"{identification_prefix}{counter}"
 
-
-# Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
-image_mark = f"a1{counter:06d}"
-
 # Initialize the camera
 picam2 = Picamera2()
 
