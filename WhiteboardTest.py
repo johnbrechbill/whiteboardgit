@@ -38,6 +38,13 @@ def read_identification():
             return file.read().strip()
     return 'a'  # Default prefix if the file doesn't exist
 
+# Delete the previous file if it exists
+if os.path.exists(last_file_file):
+    with open(last_file_file, 'r') as file:
+        last_image_path = file.read().strip()
+    if os.path.exists(last_image_path):
+        os.remove(last_image_path)
+
 # Read the identification prefix
 identification_prefix = read_identification()
 
@@ -60,6 +67,10 @@ time.sleep(2)
 # Capture the image
 image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 picam2.capture_file(image_path)
+
+# Save the current image path as the last file
+with open(last_file_file, 'w') as file:
+    file.write(image_path)
 
 # Stop the camera
 picam2.stop()
