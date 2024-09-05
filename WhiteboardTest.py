@@ -70,4 +70,4 @@ response = cloudinary.uploader.upload(
 url, options = cloudinary_url(image_mark)
 
 print("Transformed Image URL:", url)
-
+print("github updated this code yayyyyy")
