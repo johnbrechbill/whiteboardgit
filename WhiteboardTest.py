@@ -12,7 +12,6 @@ from cloudinary.utils import cloudinary_url
 
 # File path for storing the counter
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
-identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 
 # Function to read the current counter value
 def read_counter():
@@ -30,6 +29,8 @@ def update_counter(counter):
 counter = read_counter() + 1
 update_counter(counter)
 
+identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
+
 # Function to read the identification prefix
 def read_identification():
     if os.path.exists(identification_file):
@@ -41,7 +42,7 @@ def read_identification():
 identification_prefix = read_identification()
 
 # Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
-image_mark = f"{identification_prefix}{counter:06d}"
+image_mark = f"{identification_prefix}{counter}"
 
 
 # Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
