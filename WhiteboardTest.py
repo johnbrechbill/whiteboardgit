@@ -12,7 +12,7 @@ from cloudinary.utils import cloudinary_url
 
 # File path for storing the counter
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
-identification_file = '/home/johnbrechbill/whiteboard/identification.txt"
+identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 
 # Function to read the current counter value
 def read_counter():
