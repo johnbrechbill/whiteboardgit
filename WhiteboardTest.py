@@ -57,7 +57,7 @@ image_mark = f"{identification_prefix}{counter}"
 picam2 = Picamera2()
 
 # Configure the camera for still capture
-camera_config = picam2.create_still_configuration(main={"size": (4656, 3496)}, lores={"size": (640, 480)}, display="lores")
+camera_config = picam2.create_still_configuration(main={"size": (3280, 2464)}, lores={"size": (640, 480)}, display="lores")
 picam2.configure(camera_config)
 
 # Start the camera
