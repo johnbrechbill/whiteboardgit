@@ -16,7 +16,7 @@ import keyboard  # Make sure to install this with 'pip install keyboard'
 def run_program():
     try:
         # Replace 'your_program.py' with the actual program you want to run
-        subprocess.run(["python3", "/path/to/your_program.py"])
+        subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
     except Exception as e:
         print(f"Error running the program: {e}")
 
