@@ -7,10 +7,6 @@ sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages pa
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import subprocess
-import keyboard  # Make sure to install this with 'pip install keyboard'
-
-
-
 
 # Function to run the external program
 def run_program():
@@ -20,15 +16,11 @@ def run_program():
     except Exception as e:
         print(f"Error running the program: {e}")
 
-print("Press Enter to run the program (Ctrl+C to exit)...")
+print("Running the program...")
 
 try:
-    while True:
-        # Check if Enter key is pressed
-        if keyboard.is_pressed('enter'):
-            print("Enter key pressed!")
-            run_program()
-            keyboard.wait('enter')  # Wait for another Enter press before proceeding
+    # Automatically run the external program when this script is executed
+    run_program()
 
 except KeyboardInterrupt:
     print("Program stopped")
