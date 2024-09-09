@@ -1,11 +1,13 @@
+sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
+
 import subprocess
 import keyboard  # Make sure to install this with 'pip install keyboard'
 import sys
 import os
 
 
-sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
-sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
+
 
 
 
