@@ -1,6 +1,9 @@
 import subprocess
 import keyboard  # Make sure to install this with 'pip install keyboard'
 
+sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
+
 # Function to run the external program
 def run_program():
     try:
