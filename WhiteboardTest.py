@@ -87,7 +87,7 @@ cloudinary.config(
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
-    upload_preset="PerspectiveAuto", "deArc"
+    upload_preset="PerspectiveAuto"
    
 )
 
