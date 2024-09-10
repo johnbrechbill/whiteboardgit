@@ -30,6 +30,8 @@ try:
             print("Button pressed!")
             run_program()
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
+        # Continue looping and checking for the next button press
+        time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
 
 except KeyboardInterrupt:
     print("Program stopped")
