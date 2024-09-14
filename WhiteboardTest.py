@@ -84,17 +84,15 @@ cloudinary.config(
     api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
 )
 
-# Upload the image to Cloudinary with the PerspectiveAuto preset
+# Upload the image with both rotation and PerspectiveAuto applied during upload
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
-    upload_preset="PerspectiveAuto"
+    upload_preset="PerspectiveAuto",
+    transformation=[{'angle': 180}]  # Rotate 180 degrees during upload
 )
 
-# Get the URL of the transformed image with a 180-degree rotation applied first
-url, options = cloudinary_url(
-    image_mark,
-    transformation=[{'angle': 180}]  # Rotate by 180 degrees
-)
+# Get the URL of the uploaded and transformed image
+url, options = cloudinary_url(image_mark)
 
 print("Transformed Image URL:", url)
