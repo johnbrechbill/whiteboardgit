@@ -83,19 +83,16 @@ cloudinary.config(
     api_key="428688153637693",
     api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
 )
-
-# Step 1: Upload the image to Cloudinary with a 180-degree rotation
+# Upload the image with the distort effect
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
-    transformation=[{'angle': 180}]  # Rotate the image 180 degrees on upload
+    upload_preset="PerspectiveAuto"
+   
 )
 
-# Step 2: Apply the PerspectiveAuto preset afterward
-url, options = cloudinary_url(
-    image_mark,
-    transformation=[],  # No additional transformations needed, just apply the preset
-    upload_preset="PerspectiveAuto"  # Apply the PerspectiveAuto preset
-)
+# Get the URL of the transformed image
+url, options = cloudinary_url(image_mark)
 
 print("Transformed Image URL:", url)
+print("github updated this code yayyyyy")
