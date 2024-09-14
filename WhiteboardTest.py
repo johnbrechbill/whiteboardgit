@@ -56,8 +56,13 @@ image_mark = f"{identification_prefix}{counter}"
 # Initialize the camera
 picam2 = Picamera2()
 
-# Configure the camera for still capture
-camera_config = picam2.create_still_configuration(main={"size": (3280, 2464)}, lores={"size": (640, 480)}, display="lores")
+# Configure the camera for still capture with 180-degree rotation
+camera_config = picam2.create_still_configuration(
+    main={"size": (3280, 2464)},
+    lores={"size": (640, 480)},
+    display="lores",
+    transform=Picamera2.Transform(hflip=0, vflip=0, rotate=180)  # Rotate by 180 degrees
+)
 picam2.configure(camera_config)
 
 # Start the camera
