@@ -60,8 +60,6 @@ picam2 = Picamera2()
 camera_config = picam2.create_still_configuration(main={"size": (3280, 2464)}, lores={"size": (640, 480)}, display="lores")
 picam2.configure(camera_config)
 
-# Apply 180-degree rotation by setting horizontal and vertical flips
-picam2.set_controls({"HorizontalFlip": True, "VerticalFlip": True})
 
 # Start the camera
 picam2.start()
