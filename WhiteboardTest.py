@@ -1,14 +1,13 @@
 import sys
 import os
-
-sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
-sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
-
-from picamera2 import Picamera2
+import subprocess
 import time
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+
+sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 
@@ -53,30 +52,15 @@ identification_prefix = read_identification()
 # Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
 image_mark = f"{identification_prefix}{counter}"
 
-# Initialize the camera
-picam2 = Picamera2()
-
-# Configure the camera for still capture
-camera_config = picam2.create_still_configuration(main={"size": (3280, 2464)}, lores={"size": (640, 480)}, display="lores")
-picam2.configure(camera_config)
-
-
-# Start the camera
-picam2.start()
-
-# Wait for the camera to adjust
-time.sleep(2)
-
-# Capture the image
+# Image path where the flipped image will be stored
 image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
-picam2.capture_file(image_path)
+
+# Capture and rotate the image using libcamera-still with horizontal and vertical flip (180-degree rotation)
+subprocess.run(["libcamera-still", "-o", image_path, "--hflip", "--vflip"])
 
 # Save the current image path as the last file
 with open(last_file_file, 'w') as file:
     file.write(image_path)
-
-# Stop the camera
-picam2.stop()
 
 # Cloudinary configuration
 cloudinary.config(
@@ -84,16 +68,15 @@ cloudinary.config(
     api_key="428688153637693",
     api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
 )
-# Upload the image with the distort effect
+
+# Upload the flipped image with the preset effect
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
     upload_preset="PerspectiveAuto"
-   
 )
 
 # Get the URL of the transformed image
 url, options = cloudinary_url(image_mark)
 
 print("Transformed Image URL:", url)
-print("github updated this code yayyyyy")
