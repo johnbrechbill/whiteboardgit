@@ -46,6 +46,9 @@ if os.path.exists(last_file_file):
         last_image_path = file.read().strip()
     if os.path.exists(last_image_path):
         os.remove(last_image_path)
+else:
+    print(f"{last_file_file} does not exist. Skipping deletion of the last file.")
+
 
 # Read the identification prefix
 identification_prefix = read_identification()
