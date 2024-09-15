@@ -10,7 +10,6 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 
-
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 
 # File path for storing the counter
@@ -57,8 +56,8 @@ image_mark = f"{identification_prefix}{counter}"
 # Image path where the flipped image will be stored
 image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 
-# Capture and rotate the image using libcamera-still with horizontal and vertical flip (180-degree rotation)
-subprocess.run(["libcamera-still", "-o", image_path, "--hflip", "--vflip"])
+# Capture and rotate the image using libcamera-still with horizontal and vertical flip (single image capture)
+subprocess.run(["libcamera-still", "-n", "-o", image_path, "--hflip", "--vflip", "--immediate", "--nopreview"])
 
 # Save the current image path as the last file
 with open(last_file_file, 'w') as file:
