@@ -6,9 +6,16 @@ sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import subprocess
 import time
+import board
+import neopixel
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+
+# Configure the NeoPixel
+pixel_pin = board.D18  
+num_pixels = 1
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 
@@ -81,3 +88,11 @@ response = cloudinary.uploader.upload(
 url, options = cloudinary_url(image_mark)
 
 print("Transformed Image URL:", url)
+
+ # Turn on the LED (white)
+        pixels[0] = (255, 255, 255)
+        time.sleep(1)  # Keep it on for 1 second
+
+        # Turn off the LED
+        pixels[0] = (0, 0, 0)
+        time.sleep(1)  # Keep it off for 1 second
