@@ -38,11 +38,11 @@ try:
             print("Button pressed!")
             
             # Turn on the LED (white)
-            pixels[0] = (50, 255, 50)
-            time.sleep(.5)  # Keep it on for 1 second
+            #pixels[0] = (50, 255, 50)
+            #time.sleep(.5)  # Keep it on for 1 second
             # Turn off the LED
-            pixels[0] = (0, 0, 0)
-            time.sleep(.5)  # Keep it off for 1 second
+            #pixels[0] = (0, 0, 0)
+           # time.sleep(.5)  # Keep it off for 1 second
             
             run_program()
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
