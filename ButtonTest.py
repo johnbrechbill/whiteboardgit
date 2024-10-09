@@ -29,7 +29,7 @@ def run_program():
     except Exception as e:
         print(f"Error running the program: {e}")
 
-print("Waiting for button press...")
+print("Waiting for button press again...")
 
 try:
     while True:
