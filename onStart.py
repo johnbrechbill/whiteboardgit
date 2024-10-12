@@ -22,7 +22,7 @@ GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
 # Function to run the whiteboard program
-def run_program():
+def run_upload():
     try:
         subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
     except Exception as e:
@@ -30,20 +30,20 @@ def run_program():
 
 print("Waiting for button press again...")
 
+
+def run_blink():
+    try:
+        subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/simpleBlink.py"])
+    except Exception as e:
+        print(f"Error running the simpleBlink program: {e}")
+
 try:
     while True:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button pressed!")
-            
-            # Turn on the LED (white)
-            #pixels[0] = (50, 255, 50)
-            #time.sleep(.5)  # Keep it on for 1 second
-            # Turn off the LED
-            #pixels[0] = (0, 0, 0)
-           # time.sleep(.5)  # Keep it off for 1 second
-            
-            run_program()
+            run_upload()
+            run_blink()
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
         # Continue looping and checking for the next button press
         time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
