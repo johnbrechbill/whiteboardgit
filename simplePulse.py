@@ -1,6 +1,5 @@
 import sys
 import os
-import RPi.GPIO as GPIO
 import time
 
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
@@ -9,14 +8,15 @@ sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 import board
 import neopixel
 
+# Initialize the NeoPixel
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
 num_pixels = 1  # One LED
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)  # Disable auto_write for better control
 
 # Function to set pixel brightness
 def set_brightness(brightness):
-    # Set the pixel color (in RGB format). You can change the color if desired.
-    pixels[0] = (int(brightness), int(brightness), int(brightness))
+    pixels[0] = (brightness, brightness, brightness)  # Set the brightness for all color channels
+    pixels.show()  # Update the LED after setting the brightness
 
 # Fade in quickly
 for i in range(0, 256, 5):  # Quick fade in (0 to 255 brightness)
@@ -30,3 +30,4 @@ for i in range(255, -1, -2):  # Slow fade out
 
 # Turn off the LED after the fade-out
 pixels.fill((0, 0, 0))
+pixels.show()  # Ensure the change is reflected
