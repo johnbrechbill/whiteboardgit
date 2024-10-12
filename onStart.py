@@ -21,10 +21,9 @@ BUTTON_PIN = 23  # Pin 23 for the button
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
-# Function to run the external program
+# Function to run the whiteboard program
 def run_program():
     try:
-        # Replace with the actual program you want to run
         subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
     except Exception as e:
         print(f"Error running the program: {e}")
