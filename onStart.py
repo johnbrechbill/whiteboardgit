@@ -50,7 +50,7 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button pressed!")
             run_upload()  # Run the WhiteboardTest.py script
-            #run_blink()   # Run the simpleBlink.py script
+            run_pulse()   # Run the simplePulse.py script
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
         # Continue looping and checking for the next button press
         time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
