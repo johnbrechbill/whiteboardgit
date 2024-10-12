@@ -90,9 +90,9 @@ url, options = cloudinary_url(image_mark)
 print("Transformed Image URL:", url)
 
 # Turn on the LED (white)
-pixels[0] = (50, 255, 50)
-time.sleep(.5)  # Keep it on for 1 second
+#pixels[0] = (50, 255, 50)
+#time.sleep(.5)  # Keep it on for 1 second
 
 # Turn off the LED
-pixels[0] = (0, 0, 0)
-time.sleep(.5)  # Keep it off for 1 second
+#pixels[0] = (0, 0, 0)
+#time.sleep(.5)  # Keep it off for 1 second
