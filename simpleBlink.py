@@ -20,18 +20,13 @@ def set_brightness(brightness):
     # Set the pixel color (in RGB format). You can change the color if desired.
     pixels[0] = (int(brightness), int(brightness), int(brightness))
 
-# Main loop
-try:
-    while True:
-        # Fade in quickly
-        for i in range(0, 256, 5):  # Quick fade in (0 to 255 brightness)
-            set_brightness(i)
-            time.sleep(0.005)  # Adjust to make the fade-in fast
+# Turn on the LED (white)
+pixels[0] = (50, 255, 50)
+time.sleep(.5)  # Keep it on for 1 second
 
-        # Fade out slowly
-        for i in range(255, -1, -2):  # Slow fade out
-            set_brightness(i)
-            time.sleep(0.02)  # Adjust to make the fade-out slow
+# Turn off the LED
+pixels[0] = (0, 0, 0)
+time.sleep(.5)  # Keep it off for 1 second
 
 except KeyboardInterrupt:
     # Turn off the LED on exit
