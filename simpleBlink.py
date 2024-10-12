@@ -1,8 +1,16 @@
+import sys
+import os
+import RPi.GPIO as GPIO
+import subprocess
 import time
+
+
+sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
+
 import board
 import neopixel
 
-# Setup
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
 num_pixels = 1  # One LED
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
