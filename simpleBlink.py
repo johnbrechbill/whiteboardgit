@@ -27,7 +27,3 @@ time.sleep(.5)  # Keep it on for 1 second
 # Turn off the LED
 pixels[0] = (0, 0, 0)
 time.sleep(.5)  # Keep it off for 1 second
-
-except KeyboardInterrupt:
-    # Turn off the LED on exit
-    pixels.fill((0, 0, 0))
