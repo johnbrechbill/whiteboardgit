@@ -10,6 +10,18 @@ sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 import board
 import neopixel
 
+# Function to update the repository
+def update_repo():
+    try:
+        # Pull the latest changes from GitHub
+        subprocess.run(["git", "pull", "origin", "main"], cwd="/home/johnbrechbill/whiteboardgit", check=True)
+        print("Repository updated successfully!")
+    except subprocess.CalledProcessError as e:
+        print(f"Error updating repository: {e}")
+
+# Call the update_repo function at the start of the script
+update_repo()
+
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
 num_pixels = 1  # One LED
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
