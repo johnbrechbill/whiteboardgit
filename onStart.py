@@ -48,7 +48,7 @@ try:
     while True:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            print("Button Pressed and Pulled")
+            print("Button Pressed and Whoops")
             run_pulse()
             run_upload()  # Run the WhiteboardTest.py script
             run_blink()
