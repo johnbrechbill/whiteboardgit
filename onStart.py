@@ -10,6 +10,9 @@ sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 import board
 import neopixel
 
+subprocess.run("eval $(ssh-agent -s)", shell=True)
+subprocess.run("ssh-add ~/.ssh/id_ed25519", shell=True)
+
 # Function to update the repository
 def update_repo():
     try:
