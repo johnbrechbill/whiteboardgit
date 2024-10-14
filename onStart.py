@@ -65,6 +65,7 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed and UPDATED FINALLY")
             run_pulse()
+            time.sleep(0.2)  # Debounce delay to prevent multiple detections
             run_upload()  # Run the WhiteboardTest.py script
             run_blink()
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
