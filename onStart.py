@@ -56,8 +56,6 @@ def run_pulse():
     try:
         # Use Popen instead of run to prevent blocking
         subprocess.Popen(["python3", "/home/johnbrechbill/whiteboardgit/simplePulse.py"])
-        
-        
     except Exception as e:
         print(f"Error running the simplePulse program: {e}")
 
