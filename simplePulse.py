@@ -29,4 +29,7 @@ for i in range(255, -1, -2):  # Slow fade out
     time.sleep(0.02)  # Adjust to make the fade-out slow
 
 # Clear all pixels (turn off all LEDs)
-pixels[0] = (0, 0, 0)
+set_brightness(0)  # Explicitly set brightness to zero
+pixels[0] = (0, 0, 0)  # Turn off the pixel
+pixels.show()  # Make sure the changes are sent to the LED
+
