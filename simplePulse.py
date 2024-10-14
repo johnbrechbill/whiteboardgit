@@ -29,4 +29,4 @@ for i in range(255, -1, -2):  # Slow fade out
     time.sleep(0.02)  # Adjust to make the fade-out slow
 
 # Clear all pixels (turn off all LEDs)
-pixels.fill((0, 0, 0))
+pixels[0] = (0, 0, 0)
