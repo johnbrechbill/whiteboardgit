@@ -55,8 +55,8 @@ print("Waiting for button press...")
 def run_pulse():
     try:
         # Use Popen instead of run to prevent blocking
-        pulse_process = subprocess.Popen(["python3", "/home/johnbrechbill/whiteboardgit/simplePulse.py"])
-        pulse_process.terminate()
+        subprocess.Popen(["python3", "/home/johnbrechbill/whiteboardgit/simplePulse.py"])
+        
         
     except Exception as e:
         print(f"Error running the simplePulse program: {e}")
