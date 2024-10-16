@@ -17,7 +17,7 @@ subprocess.run("ssh-add ~/.ssh/id_ed25519", shell=True)
 def update_repo():
     try:
         # Pull the latest changes from GitHub
-        subprocess.run(["sudo", "git", "pull", "origin", "main"], cwd="/home/johnbrechbill/whiteboardgit", check=True)
+        subprocess.run(["git", "pull", "origin", "main"], cwd="/home/johnbrechbill/whiteboardgit", check=True)
         print("Repository updated successfully!")
     except subprocess.CalledProcessError as e:
         print(f"Error updating repository: {e}")
