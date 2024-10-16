@@ -21,7 +21,7 @@ def set_brightness(brightness):
     pixels[0] = (int(brightness), int(brightness), int(brightness))
 
 # Turn on the LED (white)
-pixels[0] = (50, 255, 50)
+pixels[0] = (255, 50, 50)
 time.sleep(.5)  # Keep it on for 1 second
 
 # Turn off the LED
