@@ -65,14 +65,18 @@ image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 
 # Run libcamera-still with adjusted quality and shutter speed
 subprocess.run([
-    "libcamera-still",
+ "libcamera-still",
     "-o", image_path,
-    "--quality", "100",        # Set JPEG quality to maximum (100)
-    "--shutter", "20000",      # Increase shutter speed (in microseconds, e.g., 20000 = 20ms)
-    "--width", "3280",         # Set width (adjust based on camera max resolution)
-    "--height", "2464",        # Set height (adjust based on camera max resolution)
-    "-n",                      # No preview window
-    "--immediate",             # Capture immediately
+    "--quality", "100",             # Set JPEG quality to maximum
+    "--exposure", "auto",            # Auto exposure
+    "--awb", "auto",                 # Auto white balance
+    "--gain", "auto",                # Auto gain
+    "--autofocus-mode", "auto",      # Auto focus
+    "--drc", "on",                   # Dynamic Range Compression for better contrast
+    "--width", "3280",               # Set width based on max resolution
+    "--height", "2464",              # Set height based on max resolution
+    "-n",                            # No preview window
+    "--immediate",                   # Capture immediately
     "--nopreview"
 ])
 
