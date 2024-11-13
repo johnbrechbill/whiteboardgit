@@ -64,7 +64,7 @@ image_mark = f"{identification_prefix}{counter}"
 image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 
 # Capture and rotate the image using libcamera-still with horizontal and vertical flip (single image capture)
-subprocess.run(["libcamera-still", "-n", "-o", image_path, "--hflip", "--vflip", "--immediate", "--nopreview"])
+subprocess.run(["libcamera-still", "-n", "-o", image_path, "--hflip", "--vflip", "--nopreview"])
 
 # Save the current image path as the last file
 with open(last_file_file, 'w') as file:
@@ -81,7 +81,7 @@ cloudinary.config(
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
-    upload_preset="PerspectiveAuto"
+    #upload_preset="PerspectiveAuto"
 )
 
 # Get the URL of the transformed image
