@@ -95,7 +95,7 @@ cloudinary.config(
 response = cloudinary.uploader.upload(
     image_path,
     public_id=image_mark,
-    #upload_preset="PerspectiveAuto"
+    upload_preset="PerspectiveAuto"
 )
 
 # Get the URL of the transformed image
