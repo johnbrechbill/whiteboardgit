@@ -69,6 +69,7 @@ subprocess.run([
     "-o", image_path,
     "--quality", "100",             # Set JPEG quality to maximum
     "--exposure", "auto",            # Auto exposure
+    "--shutter", "auto",
     "--awb", "auto",                 # Auto white balance
     "--gain", "auto",                # Auto gain
     "--autofocus-mode", "auto",      # Auto focus
