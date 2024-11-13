@@ -71,7 +71,6 @@ subprocess.run([
     "--exposure", "auto",            # Auto exposure
     "--shutter", "auto",
     "--awb", "auto",                 # Auto white balance
-    "--gain", "auto",                # Auto gain
     "--autofocus-mode", "auto",      # Auto focus
     "--width", "3280",               # Set width based on max resolution
     "--height", "2464",              # Set height based on max resolution
