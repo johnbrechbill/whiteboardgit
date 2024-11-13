@@ -73,7 +73,6 @@ subprocess.run([
     "--awb", "auto",                 # Auto white balance
     "--gain", "auto",                # Auto gain
     "--autofocus-mode", "auto",      # Auto focus
-    "--drc", "on",                   # Dynamic Range Compression for better contrast
     "--width", "3280",               # Set width based on max resolution
     "--height", "2464",              # Set height based on max resolution
     "-n",                            # No preview window
