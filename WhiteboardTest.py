@@ -76,8 +76,6 @@ subprocess.run([
     "--width", "3280",               # Set width based on max resolution
     "--height", "2464",              # Set height based on max resolution
     "-n",                            # No preview window
-    "--immediate",                   # Capture immediately
-    "--nopreview"
 ])
 
 # Save the current image path as the last file
