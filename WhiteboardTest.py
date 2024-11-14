@@ -69,7 +69,9 @@ subprocess.run([
     "-o", image_path,
     "--autofocus-on-capture",
     "--quality", "100",             # Set JPEG quality to maximum
-    "--shutter", "20000",
+    "--shutter", "200000",
+    "--hdr", "auto",
+    
 ])
 
 # Save the current image path as the last file
