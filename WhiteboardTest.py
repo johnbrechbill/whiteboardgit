@@ -68,13 +68,6 @@ subprocess.run([
  "libcamera-still",
     "-o", image_path,
     "--quality", "100",             # Set JPEG quality to maximum
-    "--exposure", "auto",            # Auto exposure
-    "--shutter", "auto",
-    "--awb", "auto",                 # Auto white balance
-    "--autofocus-mode", "auto",      # Auto focus
-    "--width", "3280",               # Set width based on max resolution
-    "--height", "2464",              # Set height based on max resolution
-    "-n",                            # No preview window
 ])
 
 # Save the current image path as the last file
