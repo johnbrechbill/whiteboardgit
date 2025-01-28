@@ -67,7 +67,7 @@ image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 subprocess.run([
  "libcamera-still",
     "-o", image_path,
-    "--autofocus", "continuous", 
+    "--autofocus-on-capture",
     "--quality", "100",             # Set JPEG quality to maximum
     "--shutter", "200000",
     "--hdr", "auto",
