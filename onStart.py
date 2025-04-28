@@ -16,7 +16,7 @@ subprocess.run("eval $(ssh-agent -s)", shell=True)
 subprocess.run("ssh-add ~/.ssh/id_ed25519", shell=True)
 
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
-num_pixels = 1  # One LED
+num_pixels = 9  # One LED
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 
 # GPIO setup
