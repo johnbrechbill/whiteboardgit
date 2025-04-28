@@ -12,7 +12,7 @@ import board
 import neopixel
 
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
-num_pixels = 1  # One LED
+num_pixels = 9  # One LED
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 
 # Function to set pixel brightness
