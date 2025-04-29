@@ -22,11 +22,11 @@ def set_brightness(brightness):
     pixels.fill(color)
 
 # Turn on the LED (white)
-pixels.fill = (0, 0, 255)
+pixels.fill((0, 0, 255))
 time.sleep(.5)  # Keep it on for 1 second
 
 # Turn off the LED
-pixels.fill = (0, 0, 0)
+pixels.fill((0, 0, 0))
 time.sleep(.5)  # Keep it off for 1 second
 
 # Clear all pixels (turn off all LEDs)
