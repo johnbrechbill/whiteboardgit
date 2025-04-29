@@ -28,7 +28,7 @@ GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input
 # Function to run the whiteboard program
 def run_upload():
     try:
-        subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
+        subprocess.Popen(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
     except Exception as e:
         print(f"Error running the WhiteboardTest program: {e}")
 
