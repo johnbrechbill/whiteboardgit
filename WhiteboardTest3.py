@@ -3,6 +3,7 @@
 import sys
 import os
 import RPi.GPIO as GPIO
+import threading
 
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
@@ -14,7 +15,6 @@ import neopixel
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
-import concurrent.futures
 
 # Configure the NeoPixel
 pixel_pin = board.D18  
@@ -124,12 +124,23 @@ try:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
-            capture_and_upload_image(read_identification, counter, last_file_file)
-            #run_blink()
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                futures = [executor.submit(run_script, script) for script in scripts]
-                for future in concurrent.futures.as_completed(futures):
-                    print(future.result())
+            
+            
+            def run_task():
+                global result
+                result = capture_and_upload_image(read_identification, counter, last_file_file)
+
+            t = threading.Thread(target=run_task)
+            t.start()
+            
+            # Do something else while waiting
+            while t.is_alive():
+                print("Waiting...")
+                time.sleep(1)
+            
+            # Ensure the task is done
+            t.join()
+            print("Result:", result)
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
             # Continue looping and checking for the next button press
             time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
