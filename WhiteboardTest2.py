@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 import sys
 import os
+import RPi.GPIO as GPIO
 
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
@@ -11,17 +14,25 @@ import neopixel
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+import concurrent.futures
 
 # Configure the NeoPixel
 pixel_pin = board.D18  
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 
+scripts=["/home/johnbrechbill/whiteboardgit/simpleBlink.py","/home/johnbrechbill/whiteboardgit/simplePulse.py"]
+
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
 
 identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
+
+GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
+
+print("Waiting for button press...")
 
 # Function to read the current counter value
 def read_counter():
@@ -52,54 +63,64 @@ if os.path.exists(last_file_file):
         last_image_path = file.read().strip()
     if os.path.exists(last_image_path):
         os.remove(last_image_path)
+try:
+    while True:
+        # Wait for the button press (button will pull the pin to LOW when pressed)
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            print("Button Pressed")
+            capture_and_upload_image(read_identification, counter, last_file_file)
+            #run_blink()
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = [executor.submit(run_script, script) for script in scripts]
+                for future in concurrent.futures.as_completed(futures):
+                    print(future.result())
+            time.sleep(0.2)  # Debounce delay to prevent multiple detections
+            # Continue looping and checking for the next button press
+            time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
 
-# Read the identification prefix
-identification_prefix = read_identification()
-
-# Format the counter with leading zeros (e.g., a001, a002, ..., a000001, etc.)
-image_mark = f"{identification_prefix}{counter}"
-
-# Image path where the flipped image will be stored
-image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
-
-# Run libcamera-still with adjusted quality and shutter speed
-subprocess.run([
- "libcamera-still",
-    "-o", image_path,
-    "--autofocus-mode", "continuous",
-    "--quality", "100",             # Set JPEG quality to maximum
-    "--shutter", "200000",
-    "--hdr", "auto",
+except KeyboardInterrupt:
+    print("Program stopped")
     
-])
+def capture_and_upload_image(read_identification, counter, last_file_file):
+    # Read the identification prefix
+    identification_prefix = read_identification()
 
-# Save the current image path as the last file
-with open(last_file_file, 'w') as file:
-    file.write(image_path)
+    # Format the counter with leading zeros (e.g., a001, a002, etc.)
+    image_mark = f"{identification_prefix}{counter}"
 
-# Cloudinary configuration
-cloudinary.config(
-    cloud_name="db6fegsqa",
-    api_key="428688153637693",
-    api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
-)
+    # Image path where the flipped image will be stored
+    image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 
-# Upload the flipped image with the preset effect
-response = cloudinary.uploader.upload(
-    image_path,
-    public_id=image_mark,
-    upload_preset="PerspectiveAuto"
-)
+    # Run libcamera-still with adjusted quality and shutter speed
+    subprocess.run([
+        "libcamera-still",
+        "-o", image_path,
+        "--autofocus-mode", "continuous",
+        "--quality", "100",             # Set JPEG quality to maximum
+        "--shutter", "200000",
+        "--hdr", "auto",
+    ])
 
-# Get the URL of the transformed image
-url, options = cloudinary_url(image_mark)
+    # Save the current image path as the last file
+    with open(last_file_file, 'w') as file:
+        file.write(image_path)
 
-print("Transformed Image URL:", url)
+    # Cloudinary configuration
+    cloudinary.config(
+        cloud_name="db6fegsqa",
+        api_key="428688153637693",
+        api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
+    )
 
-# Turn on the LED (white)
-#pixels[0] = (50, 255, 50)
-#time.sleep(.5)  # Keep it on for 1 second
+    # Upload the image with the preset effect
+    response = upload(
+        image_path,
+        public_id=image_mark,
+        upload_preset="PerspectiveAuto"
+    )
 
-# Turn off the LED
-#pixels[0] = (0, 0, 0)
-#time.sleep(.5)  # Keep it off for 1 second
+    # Get the URL of the transformed image
+    url, options = cloudinary_url(image_mark)
+
+    print("Transformed Image URL:", url)
+    return url
