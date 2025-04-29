@@ -35,6 +35,14 @@ identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
+# Test Function To Run Script
+def run_script(script_name):
+    try:
+        result = subprocess.run(['python3', script_name], capture_output=True, text=True, check=True)
+        return f"{script_name} succeeded:\n{result.stdout}"
+    except subprocess.CalledProcessError as e:
+        return f"{script_name} failed with return code {e.returncode}:\n{e.stderr}"
+
 def capture_and_upload_image(read_identification, counter, last_file_file):
     # Read the identification prefix
     identification_prefix = read_identification()
