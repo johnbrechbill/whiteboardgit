@@ -67,7 +67,7 @@ def capture_and_upload_image(read_identification, counter, last_file_file):
     )
 
     # Upload the image with the preset effect
-    response = upload(
+    response = cloudinary.uploader.upload(
         image_path,
         public_id=image_mark,
         upload_preset="PerspectiveAuto"
