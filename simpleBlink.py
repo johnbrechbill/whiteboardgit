@@ -4,7 +4,6 @@ import RPi.GPIO as GPIO
 import subprocess
 import time
 
-
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
@@ -12,22 +11,21 @@ import board
 import neopixel
 
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
-num_pixels = 9  # Nine LED's
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
+num_pixels = 9  # Nine LEDs
+led_strip = neopixel.NeoPixel(pixel_pin, num_pixels)
 
 # Function to set pixel brightness
 def set_brightness(brightness):
-    # Set the pixel color (in RGB format). You can change the color if desired.
     color = (int(brightness), int(brightness), int(brightness))
-    pixels.fill(color)
+    led_strip.fill(color)
 
-# Turn on the LED (white)
-pixels.fill((0, 0, 255))
-time.sleep(.5)  # Keep it on for 1 second
+# Turn on all LEDs (blue)
+led_strip.fill((0, 0, 255))
+time.sleep(0.5)
 
-# Turn off the LED
-pixels.fill((0, 0, 0))
-time.sleep(.5)  # Keep it off for 1 second
+# Turn off all LEDs
+led_strip.fill((0, 0, 0))
+time.sleep(0.5)
 
-# Clear all pixels (turn off all LEDs)
-pixels.fill((0, 0, 0))
+# Clear all LEDs
+led_strip.fill((0, 0, 0))
