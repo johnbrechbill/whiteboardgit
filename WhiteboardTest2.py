@@ -21,6 +21,9 @@ pixel_pin = board.D18
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 
+GPIO setup
+BUTTON_PIN = 23  # Pin 23 for the button
+
 scripts=["/home/johnbrechbill/whiteboardgit/simpleBlink.py","/home/johnbrechbill/whiteboardgit/simplePulse.py"]
 
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
