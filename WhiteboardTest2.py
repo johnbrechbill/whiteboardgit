@@ -35,6 +35,51 @@ identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
+def capture_and_upload_image(read_identification, counter, last_file_file):
+    # Read the identification prefix
+    identification_prefix = read_identification()
+
+    # Format the counter with leading zeros (e.g., a001, a002, etc.)
+    image_mark = f"{identification_prefix}{counter}"
+
+    # Image path where the flipped image will be stored
+    image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
+
+    # Run libcamera-still with adjusted quality and shutter speed
+    subprocess.run([
+        "libcamera-still",
+        "-o", image_path,
+        "--autofocus-mode", "continuous",
+        "--quality", "100",             # Set JPEG quality to maximum
+        "--shutter", "200000",
+        "--hdr", "auto",
+    ])
+
+    # Save the current image path as the last file
+    with open(last_file_file, 'w') as file:
+        file.write(image_path)
+
+    # Cloudinary configuration
+    cloudinary.config(
+        cloud_name="db6fegsqa",
+        api_key="428688153637693",
+        api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
+    )
+
+    # Upload the image with the preset effect
+    response = upload(
+        image_path,
+        public_id=image_mark,
+        upload_preset="PerspectiveAuto"
+    )
+
+    # Get the URL of the transformed image
+    url, options = cloudinary_url(image_mark)
+
+    print("Transformed Image URL:", url)
+    return url
+
+
 print("Waiting for button press...")
 
 # Function to read the current counter value
@@ -84,46 +129,3 @@ try:
 except KeyboardInterrupt:
     print("Program stopped")
     
-def capture_and_upload_image(read_identification, counter, last_file_file):
-    # Read the identification prefix
-    identification_prefix = read_identification()
-
-    # Format the counter with leading zeros (e.g., a001, a002, etc.)
-    image_mark = f"{identification_prefix}{counter}"
-
-    # Image path where the flipped image will be stored
-    image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
-
-    # Run libcamera-still with adjusted quality and shutter speed
-    subprocess.run([
-        "libcamera-still",
-        "-o", image_path,
-        "--autofocus-mode", "continuous",
-        "--quality", "100",             # Set JPEG quality to maximum
-        "--shutter", "200000",
-        "--hdr", "auto",
-    ])
-
-    # Save the current image path as the last file
-    with open(last_file_file, 'w') as file:
-        file.write(image_path)
-
-    # Cloudinary configuration
-    cloudinary.config(
-        cloud_name="db6fegsqa",
-        api_key="428688153637693",
-        api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
-    )
-
-    # Upload the image with the preset effect
-    response = upload(
-        image_path,
-        public_id=image_mark,
-        upload_preset="PerspectiveAuto"
-    )
-
-    # Get the URL of the transformed image
-    url, options = cloudinary_url(image_mark)
-
-    print("Transformed Image URL:", url)
-    return url
