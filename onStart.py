@@ -11,6 +11,7 @@ sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import board
 import neopixel
+import concurrent.futures
 
 subprocess.run("eval $(ssh-agent -s)", shell=True)
 subprocess.run("ssh-add ~/.ssh/id_ed25519", shell=True)
@@ -22,6 +23,8 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 # GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
 
+scripts=["/home/johnbrechbill/whiteboardgit/WhiteboardTest.py","/home/johnbrechbill/whiteboardgit/simpleBlink.py","/home/johnbrechbill/whiteboardgit/simplePulse.py"]
+
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
@@ -31,6 +34,16 @@ def run_upload():
         subprocess.run(["python3", "/home/johnbrechbill/whiteboardgit/WhiteboardTest.py"])
     except Exception as e:
         print(f"Error running the WhiteboardTest program: {e}")
+
+
+# Test Function To Run Script
+def run_script(script_name):
+    try:
+        result = subprocess.run(['python3', script_name], capture_output=True, text=True, check=True)
+        return f"{script_name} succeeded:\n{result.stdout}"
+    except subprocess.CalledProcessError as e:
+        return f"{script_name} failed with return code {e.returncode}:\n{e.stderr}"
+
 
 # Function to run the simpleBlink program
 def run_blink():
@@ -54,12 +67,16 @@ try:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
-            run_pulse()
-            run_upload()  # Run the WhiteboardTest.py script
-            run_blink()
+            #run_pulse()
+            #run_upload()  # Run the WhiteboardTest.py script
+            #run_blink()
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = [executor.submit(run_script, script) for script in scripts]
+                for future in concurrent.futures.as_completed(futures):
+                    print(future.result())
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
-        # Continue looping and checking for the next button press
-        time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
+            # Continue looping and checking for the next button press
+            time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
 
 except KeyboardInterrupt:
     print("Program stopped")
