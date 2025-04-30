@@ -9,27 +9,26 @@ import board
 import neopixel
 
 # Initialize the NeoPixel strip
-pixel_pin = board.D18  # GPIO 18
+pixel_pin = board.D18
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
-# Clear all pixels before starting
+# Ensure all pixels start off
 pixels.fill((0, 0, 0))
 pixels.show()
 
-# Define the color to zoom with
-color = (0, 0, 255)  # Bright white
+# Define zoom color
+color = (255, 255, 255)
 
-# Zoom effect: light up one more pixel in each step
+# Zoom across: progressively light more pixels
 for i in range(num_pixels):
-    for j in range(i + 1):
-        pixels[j] = color
-    pixels.show()
-    time.sleep(0.05)  # Adjust speed of "zoom"
+    pixels[i] = color  # Light the next pixel
+    pixels.show()      # Update the strip
+    time.sleep(0.05)   # Speed of zooming
 
-# Hold full brightness for half a second
-time.sleep(.2)
+# Hold full-on state for half a second
+time.sleep(0.5)
 
-# Turn everything off
+# Turn all pixels off
 pixels.fill((0, 0, 0))
 pixels.show()
