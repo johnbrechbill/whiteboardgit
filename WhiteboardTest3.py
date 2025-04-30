@@ -24,7 +24,8 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
 
-scripts=["/home/johnbrechbill/whiteboardgit/simpleBlink.py","/home/johnbrechbill/whiteboardgit/simplePulse.py"]
+pulse_script="/home/johnbrechbill/whiteboardgit/simplePulse.py"
+blink_script="/home/johnbrechbill/whiteboardgit/simpleBlink.py"
 
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 
@@ -125,7 +126,6 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
             
-            
             def run_task():
                 global result
                 result = capture_and_upload_image(read_identification, counter, last_file_file)
@@ -135,12 +135,14 @@ try:
             
             # Do something else while waiting
             while t.is_alive():
-                print("Waiting...")
+                #print("Waiting...")
+                run_script(pulse_script)
                 time.sleep(1)
             
             # Ensure the task is done
             t.join()
-            print("Result:", result)
+            #print("Result:", result)
+            run_script(blink_script)
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
             # Continue looping and checking for the next button press
             time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
