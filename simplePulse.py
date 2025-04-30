@@ -2,22 +2,25 @@ import sys
 import os
 import time
 
-sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/usr/lib/python3/dist-packages')
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import board
 import neopixel
 
-# Initialize the NeoPixel
-pixel_pin = board.D18  # GPIO 18 (physical pin 12)
+# Initialize the NeoPixel strip
+pixel_pin = board.D18  # GPIO 18
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
-# Function to set brightness of all pixels
+# Clear all pixels at start
+pixels.fill((0, 0, 0))
+pixels.show()
+
+# Function to set brightness for all pixels
 def set_brightness(brightness):
-    color = (brightness, brightness, brightness)
-    for i in range(num_pixels):
-        pixels[i] = color
+    brightness = max(0, min(255, brightness))  # Clamp to valid range
+    pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
 try:
@@ -33,8 +36,6 @@ try:
             time.sleep(0.02)
 
 except KeyboardInterrupt:
-    # Turn off all pixels on exit
-    set_brightness(0)
-    for i in range(num_pixels):
-        pixels[i] = (0, 0, 0)
+    # Clear pixels on exit
+    pixels.fill((0, 0, 0))
     pixels.show()
