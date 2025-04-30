@@ -28,7 +28,7 @@ for i in range(num_pixels):
     time.sleep(0.05)  # Adjust speed of "zoom"
 
 # Hold full brightness for half a second
-time.sleep(0.5)
+time.sleep(.2)
 
 # Turn everything off
 pixels.fill((0, 0, 0))
