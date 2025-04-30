@@ -1,31 +1,35 @@
 import sys
 import os
-import RPi.GPIO as GPIO
-import subprocess
 import time
 
-sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/usr/lib/python3/dist-packages')
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import board
 import neopixel
 
-pixel_pin = board.D18  # GPIO 18 (physical pin 12)
-num_pixels = 9  # Nine LEDs
-led_strip = neopixel.NeoPixel(pixel_pin, num_pixels)
+# Initialize the NeoPixel strip
+pixel_pin = board.D18  # GPIO 18
+num_pixels = 9
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
-# Function to set pixel brightness
-def set_brightness(brightness):
-    color = (int(brightness), int(brightness), int(brightness))
-    led_strip.fill(color)
+# Clear all pixels before starting
+pixels.fill((0, 0, 0))
+pixels.show()
 
-# Turn on all LEDs (blue)
-led_strip.fill((0, 0, 255))
+# Define the color to zoom with
+color = (255, 255, 255)  # Bright white
+
+# Zoom effect: light up one more pixel in each step
+for i in range(num_pixels):
+    for j in range(i + 1):
+        pixels[j] = color
+    pixels.show()
+    time.sleep(0.05)  # Adjust speed of "zoom"
+
+# Hold full brightness for half a second
 time.sleep(0.5)
 
-# Turn off all LEDs
-led_strip.fill((0, 0, 0))
-time.sleep(0.5)
-
-# Clear all LEDs
-led_strip.fill((0, 0, 0))
+# Turn everything off
+pixels.fill((0, 0, 0))
+pixels.show()
