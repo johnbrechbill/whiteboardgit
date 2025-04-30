@@ -135,13 +135,13 @@ try:
             
             # Do something else while waiting
             while t.is_alive():
-                #print("Waiting...")
+                print("Waiting...")
                 run_script(pulse_script)
-                time.sleep(1)
+                time.sleep(.1)
             
             # Ensure the task is done
             t.join()
-            #print("Result:", result)
+            print("Result:", result)
             run_script(blink_script)
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
             # Continue looping and checking for the next button press
