@@ -149,7 +149,7 @@ try:
             
             # Ensure the task is done
             t.join()
-            print("Result:", result)
+            #print("Result:", result)
             run_script(blink_script)
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
             # Continue looping and checking for the next button press
