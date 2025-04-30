@@ -36,24 +36,6 @@ identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
-def pulse_pixels(color=(255, 255, 255), steps=50, delay=0.02):
-    while True:  # Infinite loop to pulse indefinitely
-        # Brightness up
-        for i in range(steps):
-            brightness = i / steps
-            for j in range(len(pixels)):
-                pixels[j] = tuple(int(c * brightness) for c in color)
-            pixels.show()
-            time.sleep(delay)
-        
-        # Brightness down
-        for i in range(steps, -1, -1):
-            brightness = i / steps
-            for j in range(len(pixels)):
-                pixels[j] = tuple(int(c * brightness) for c in color)
-            pixels.show()
-            time.sleep(delay)
-    
 # Test Function To Run Script
 def run_script(script_name):
     try:
@@ -153,13 +135,16 @@ try:
             
             # Do something else while waiting
              # Start pulsing as a background process
-            pulse_pixels((0,255,0))
+            pulse_process = subprocess.Popen(['python3', pulse_script])
             
             # Wait while the image upload is happening
             while t.is_alive():
                 print("Waiting...")
                 time.sleep(0.1)
-        
+            
+            # Kill the pulse process after upload is done
+            pulse_process.terminate()
+            pulse_process.wait()
 
             
             # Ensure the task is done
