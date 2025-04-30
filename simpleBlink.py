@@ -18,7 +18,7 @@ pixels.fill((0, 0, 0))
 pixels.show()
 
 # Define the color to zoom with
-color = (255, 255, 255)  # Bright white
+color = (0, 0, 255)  # Bright white
 
 # Zoom effect: light up one more pixel in each step
 for i in range(num_pixels):
