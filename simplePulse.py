@@ -10,26 +10,31 @@ import neopixel
 
 # Initialize the NeoPixel
 pixel_pin = board.D18  # GPIO 18 (physical pin 12)
-num_pixels = 9  # One LED
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)  # Disable auto_write for better control
+num_pixels = 9
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
-# Function to set pixel brightness
+# Function to set brightness of all pixels
 def set_brightness(brightness):
-    pixels[0] = (brightness, brightness, brightness)  # Set the brightness for all color channels
-    pixels.show()  # Update the LED after setting the brightness
+    color = (brightness, brightness, brightness)
+    for i in range(num_pixels):
+        pixels[i] = color
+    pixels.show()
 
-# Fade in quickly
-for i in range(0, 256, 5):  # Quick fade in (0 to 255 brightness)
-    set_brightness(i)
-    time.sleep(0.005)  # Adjust to make the fade-in fast
+try:
+    while True:
+        # Fade in
+        for i in range(0, 256, 2):
+            set_brightness(i)
+            time.sleep(0.02)
 
-# Fade out slowly
-for i in range(255, -1, -2):  # Slow fade out
-    set_brightness(i)
-    time.sleep(0.02)  # Adjust to make the fade-out slow
+        # Fade out
+        for i in range(255, -1, -2):
+            set_brightness(i)
+            time.sleep(0.02)
 
-# Clear all pixels (turn off all LEDs)
-set_brightness(0)  # Explicitly set brightness to zero
-pixels[0] = (0, 0, 0)  # Turn off the pixel
-pixels.show()  # Make sure the changes are sent to the LED
-
+except KeyboardInterrupt:
+    # Turn off all pixels on exit
+    set_brightness(0)
+    for i in range(num_pixels):
+        pixels[i] = (0, 0, 0)
+    pixels.show()
