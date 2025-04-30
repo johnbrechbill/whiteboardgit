@@ -134,10 +134,18 @@ try:
             t.start()
             
             # Do something else while waiting
+             # Start pulsing as a background process
+            pulse_process = subprocess.Popen(['python3', pulse_script])
+            
+            # Wait while the image upload is happening
             while t.is_alive():
                 print("Waiting...")
-                run_script(pulse_script)
-                time.sleep(.1)
+                time.sleep(0.1)
+            
+            # Kill the pulse process after upload is done
+            pulse_process.terminate()
+            pulse_process.wait()
+
             
             # Ensure the task is done
             t.join()
