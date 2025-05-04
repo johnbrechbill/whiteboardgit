@@ -159,16 +159,19 @@ if os.path.exists(last_file_file):
     if os.path.exists(last_image_path):
         os.remove(last_image_path)
 try:
-    stop_event = threading.Event()
-    led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
-    led_thread.start()
+    while True:
+        stop_event = threading.Event()
+        led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
+        led_thread.start()
+    
+        try:
+            capture_and_upload_image(counter, last_file_file)
+        finally:
+            stop_event.set()
+            led_thread.join()
+            simple_blink()
 
-    try:
-        capture_and_upload_image(counter, last_file_file)
-    finally:
-        stop_event.set()
-        led_thread.join()
-        simple_blink()
+        break
 except KeyboardInterrupt:
     pixels.fill((0, 0, 0))
     pixels.show()
