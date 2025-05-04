@@ -173,8 +173,24 @@ if os.path.exists(last_file_file):
         os.remove(last_image_path)
 try:
     while True:
-        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            led_animation()
+        stop_event = threading.Event()
+        print("set stop event")
+        led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+        print("set led thread")
+        led_thread.start()
+        print ("started led thread")
+    
+        try:
+            time.sleep(10000)
+            print("capturing and uploading image")
+            capture_and_upload_image(counter, last_file_file)
+        finally:
+            print("stopping event")
+            stop_event.set()
+            print("joining led thread")
+            led_thread.join()
+            print("cycle completed")
+            
         # Wait for the button press (button will pull the pin to LOW when pressed)
         # if GPIO.input(BUTTON_PIN) == GPIO.LOW:
         #     print("Button Pressed")
