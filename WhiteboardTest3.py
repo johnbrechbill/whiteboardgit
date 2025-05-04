@@ -15,6 +15,7 @@ import neopixel
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from simplePulse import led_animation
 
 # Configure the NeoPixel
 pixel_pin = board.D18  
@@ -114,6 +115,10 @@ def read_identification():
             return file.read().strip()
     return 'none'  # Default prefix if the file doesn't exist
 
+# def run_task():
+#     global result
+#     result = capture_and_upload_image(read_identification, counter, last_file_file)
+
 # Delete the previous file if it exists
 if os.path.exists(last_file_file):
     with open(last_file_file, 'r') as file:
@@ -125,30 +130,39 @@ try:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
-            
-            def run_task():
-                global result
-                result = capture_and_upload_image(read_identification, counter, last_file_file)
 
-            t = threading.Thread(target=run_task)
-            t.start()
+            stop_event = threading.Event()
+            led_thread - threading.Thread(target=led_animation, args=(stop_event,))
+            led_thread.start()
+
+            try:
+                capture_and_upload_image(read_identification, counter, last_file_file)
+            finally:
+                stop_event.set()
+                led_thread.join()
+
+            # run_task()
             
-            # Do something else while waiting
-             # Start pulsing as a background process
-            pulse_process = subprocess.Popen(['python3', pulse_script])
+            # t = threading.Thread(target=run_task)
+            # t.start()
             
-            # Wait while the image upload is happening
-            while t.is_alive():
-                print("Waiting...")
-                time.sleep(0.1)
+            # # Do something else while waiting
+            #  # Start pulsing as a background process
+            # pulse_process = subprocess.Popen(['python3', pulse_script])
             
-            # Kill the pulse process after upload is done
-            pulse_process.terminate()
-            pulse_process.wait()
+            # # Wait while the image upload is happening
+            # while t.is_alive():
+            #     print("Waiting...")
+            #     time.sleep(0.1)
+            
+            # # Kill the pulse process after upload is done
+            # pulse_process.terminate()
+            # pulse_process.wait()
 
             
-            # Ensure the task is done
-            t.join()
+            # # Ensure the task is done
+            # t.join()
+
             #print("Result:", result)
             run_script(blink_script)
             time.sleep(0.2)  # Debounce delay to prevent multiple detections
