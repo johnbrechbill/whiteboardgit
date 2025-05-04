@@ -21,6 +21,10 @@ pixel_pin = board.D18
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
+# Clear any existing LED state on startup
+pixels.fill((0, 0, 0))
+pixels.show()
+
 # Function to set brightness for all pixels
 def set_brightness(brightness):
     brightness = max(0, min(255, brightness))  # Clamp to valid range
