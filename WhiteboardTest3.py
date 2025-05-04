@@ -27,35 +27,30 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-def led_animation():
-    while True:
+# def led_animation():
+#     while True:
+#         for i in range(0, 256, 2):
+#             print("setting brightness up:", i)
+#             set_brightness(i)
+#             time.sleep(0.02)
+#         for i in range(255, -1, -2):
+#             print("setting brightness down:", i)
+#             set_brightness(i)
+#             time.sleep(0.02)
+
+def led_animation(stop_event):
+    while not stop_event.is_set():
         for i in range(0, 256, 2):
-            print("setting brightness up:", i)
+            if stop_event.is_set():
+                print("stop event set")
+                break
+            print("setting brightness 1")
             set_brightness(i)
             time.sleep(0.02)
         for i in range(255, -1, -2):
-            print("setting brightness down:", i)
+            print("setting brightness 2")
             set_brightness(i)
             time.sleep(0.02)
-
-# def led_animation(stop_event):
-#     try:
-#         while not stop_event.is_set():
-#             for i in range(0, 256, 2):
-#                 if stop_event.is_set():
-#                     print("stop event set")
-#                     break
-#                 print("setting brightness 1")
-#                 set_brightness(i)
-#                 time.sleep(0.02)
-#             for i in range(255, -1, -2):
-#                 print("setting brightness 2")
-#                 set_brightness(i)
-#                 time.sleep(0.02)
-#     finally:
-#         print("clearing pixels 2")
-#         pixels.fill((0,0,0))
-#         pixels.show()
 
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
