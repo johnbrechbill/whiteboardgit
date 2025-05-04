@@ -51,7 +51,6 @@ def led_animation(stop_event):
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
 
-pulse_script="/home/johnbrechbill/whiteboardgit/simplePulse.py"
 blink_script="/home/johnbrechbill/whiteboardgit/simpleBlink.py"
 
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
@@ -164,32 +163,22 @@ if os.path.exists(last_file_file):
         os.remove(last_image_path)
 try:
     while True:
-        stop_event = threading.Event()
-        print("set stop event")
-        led_thread = threading.Thread(target=led_animation, args=(stop_event,))
-        print("set led thread")
-        led_thread.start()
-        print ("started led thread")
-    
-        try:
-            print("capturing and uploading image")
-            capture_and_upload_image(counter, last_file_file)
-        finally:
-            print("stopping event")
-            stop_event.set()
-            print("joining led thread")
-            led_thread.join()
-            print("cycle completed")
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            print("Button pressed. Starting LED animation and image capture.")
+            stop_event = threading.Event()
+            led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+            led_thread.start()
+
+            try:
+                capture_and_upload_image(counter, last_file_file)
+            finally:
+                stop_event.set()
+                led_thread.join()
+                # run_script(blink_script)
             
-        # Wait for the button press (button will pull the pin to LOW when pressed)
-        # if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-        #     print("Button Pressed")
-
-        #     #print("Result:", result)
-        #     run_script(blink_script)
-        #     time.sleep(0.2)  # Debounce delay to prevent multiple detections
-        #     # Continue looping and checking for the next button press
-        #     time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
-
+            # Optional: debounce delay to avoid retriggering too quickly
+            time.sleep(0.5)
+        else:
+            time.sleep(0.1)  # Sleep briefly to avoid busy-waiting
 except KeyboardInterrupt:
-    print("Program stopped")
+    GPIO.cleanup()
