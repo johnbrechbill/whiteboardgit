@@ -163,22 +163,15 @@ if os.path.exists(last_file_file):
         os.remove(last_image_path)
 try:
     while True:
-        #if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-        print("Button pressed. Starting LED animation and image capture.")
         stop_event = threading.Event()
         led_thread = threading.Thread(target=led_animation, args=(stop_event,))
         led_thread.start()
-
+    
         try:
             capture_and_upload_image(counter, last_file_file)
         finally:
             stop_event.set()
             led_thread.join()
-            # run_script(blink_script)
-        
-        # Optional: debounce delay to avoid retriggering too quickly
-        time.sleep(0.5)
-        #else:
-            # time.sleep(0.1)  # Sleep briefly to avoid busy-waiting
+            run_script(blink_script)
 except KeyboardInterrupt:
     GPIO.cleanup()
