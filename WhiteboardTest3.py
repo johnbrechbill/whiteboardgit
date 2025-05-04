@@ -132,7 +132,7 @@ try:
             print("Button Pressed")
 
             stop_event = threading.Event()
-            led_thread - threading.Thread(target=led_animation, args=(stop_event,))
+            led_thread = threading.Thread(target=led_animation, args=(stop_event,))
             led_thread.start()
 
             try:
