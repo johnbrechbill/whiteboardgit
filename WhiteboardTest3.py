@@ -171,4 +171,6 @@ try:
             led_thread.join()
             simple_blink()
 except KeyboardInterrupt:
+    pixels.fill((0, 0, 0))
+    pixels.show()
     GPIO.cleanup()
