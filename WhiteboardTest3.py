@@ -27,7 +27,7 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-def led_animation(stop_event):
+def simple_pulse(stop_event):
     while not stop_event.is_set():
         for i in range(0, 256, 2):
             if stop_event.is_set(): break
@@ -36,6 +36,20 @@ def led_animation(stop_event):
         for i in range(255, -1, -2):
             set_brightness(i)
             time.sleep(0.02)
+
+def simple_blink():    
+    # Zoom across: progressively light more pixels
+    for i in range(num_pixels):
+        pixels[i] = (255, 255, 255)  # Light the next pixel
+        pixels.show()      # Update the strip
+        time.sleep(0.05)   # Speed of zooming
+    
+    # Hold full-on state for half a second
+    time.sleep(0.5)
+    
+    # Turn all pixels off
+    pixels.fill((0, 0, 0))
+    pixels.show()
 
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
@@ -143,7 +157,7 @@ if os.path.exists(last_file_file):
 try:
     while True:
         stop_event = threading.Event()
-        led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+        led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
         led_thread.start()
     
         try:
@@ -151,6 +165,6 @@ try:
         finally:
             stop_event.set()
             led_thread.join()
-            run_script(blink_script)
+            simple_blink()
 except KeyboardInterrupt:
     GPIO.cleanup()
