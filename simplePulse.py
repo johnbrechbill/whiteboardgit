@@ -23,19 +23,33 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-try:
-    while True:
-        # Fade in
-        for i in range(0, 256, 2):
-            set_brightness(i)
-            time.sleep(0.02)
+def led_animation(stop_event):
+    try:
+        while not stop_event.is_set():
+            for i in range(0, 256, 2):
+                if stop_event.is_set(): break
+                set_brightness(i)
+                time.sleep(0.02)
+            for i in range(255, -1, -2):
+                set_brightness(i)
+                time.sleep(0.02)
+    finally:
+        pixels.fill((0,0,0))
+        pixels.show()
 
-        # Fade out
-        for i in range(255, -1, -2):
-            set_brightness(i)
-            time.sleep(0.02)
+# try:
+#     while True:
+#         # Fade in
+#         for i in range(0, 256, 2):
+#             set_brightness(i)
+#             time.sleep(0.02)
 
-except KeyboardInterrupt:
-    # Clear pixels on exit
-    pixels.fill((0, 0, 0))
-    pixels.show()
+#         # Fade out
+#         for i in range(255, -1, -2):
+#             set_brightness(i)
+#             time.sleep(0.02)
+
+# except KeyboardInterrupt:
+#     # Clear pixels on exit
+#     pixels.fill((0, 0, 0))
+#     pixels.show()
