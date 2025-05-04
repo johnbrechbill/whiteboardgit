@@ -6,8 +6,7 @@ import RPi.GPIO as GPIO
 import threading
 
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
-#sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
-sys.path.append('/home/johnbrechbill/whiteboardlib')
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import subprocess
 import time
