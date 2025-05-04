@@ -23,30 +23,39 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
 # Function to set brightness for all pixels
 def set_brightness(brightness):
-    pixels.fill((0, 0, 0))
-    pixels.show()
     brightness = max(0, min(255, brightness))  # Clamp to valid range
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-def led_animation(stop_event):
-    try:
-        while not stop_event.is_set():
-            for i in range(0, 256, 2):
-                if stop_event.is_set():
-                    print("stop event set")
-                    break
-                print("setting brightness 1")
-                set_brightness(i)
-                time.sleep(0.02)
-            for i in range(255, -1, -2):
-                print("setting brightness 2")
-                set_brightness(i)
-                time.sleep(0.02)
-    finally:
-        print("clearing pixels 2")
-        pixels.fill((0,0,0))
-        pixels.show()
+def led_animation():
+    while True:
+        for i in range(0, 256, 2):
+            print("setting brightness up:", i)
+            set_brightness(i)
+            time.sleep(0.02)
+        for i in range(255, -1, -2):
+            print("setting brightness down:", i)
+            set_brightness(i)
+            time.sleep(0.02)
+
+# def led_animation(stop_event):
+#     try:
+#         while not stop_event.is_set():
+#             for i in range(0, 256, 2):
+#                 if stop_event.is_set():
+#                     print("stop event set")
+#                     break
+#                 print("setting brightness 1")
+#                 set_brightness(i)
+#                 time.sleep(0.02)
+#             for i in range(255, -1, -2):
+#                 print("setting brightness 2")
+#                 set_brightness(i)
+#                 time.sleep(0.02)
+#     finally:
+#         print("clearing pixels 2")
+#         pixels.fill((0,0,0))
+#         pixels.show()
 
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
@@ -168,23 +177,25 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
 
-            stop_event = threading.Event()
-            print("set stop event")
-            led_thread = threading.Thread(target=led_animation, args=(stop_event,))
-            print("set led thread")
-            led_thread.start()
-            print ("started led thread")
+            # stop_event = threading.Event()
+            # print("set stop event")
+            # led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+            # print("set led thread")
+            # led_thread.start()
+            # print ("started led thread")
 
-            try:
-                time.sleep(10000)
-                # print("capturing and uploading image")
-                # capture_and_upload_image(read_identification, counter, last_file_file)
-            finally:
-                print("stopping event")
-                stop_event.set()
-                print("joining led thread")
-                led_thread.join()
-                print("cycle completed")
+            # try:
+            #     time.sleep(10000)
+            #     # print("capturing and uploading image")
+            #     # capture_and_upload_image(read_identification, counter, last_file_file)
+            # finally:
+            #     print("stopping event")
+            #     stop_event.set()
+            #     print("joining led thread")
+            #     led_thread.join()
+            #     print("cycle completed")
+
+            led_animation()
 
             #capture_and_upload_image(counter, last_file_file)
 
