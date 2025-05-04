@@ -173,59 +173,60 @@ if os.path.exists(last_file_file):
         os.remove(last_image_path)
 try:
     while True:
+        led_animation()
         # Wait for the button press (button will pull the pin to LOW when pressed)
-        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            print("Button Pressed")
+        # if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+        #     print("Button Pressed")
 
-            # stop_event = threading.Event()
-            # print("set stop event")
-            # led_thread = threading.Thread(target=led_animation, args=(stop_event,))
-            # print("set led thread")
-            # led_thread.start()
-            # print ("started led thread")
+        #     # stop_event = threading.Event()
+        #     # print("set stop event")
+        #     # led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+        #     # print("set led thread")
+        #     # led_thread.start()
+        #     # print ("started led thread")
 
-            # try:
-            #     time.sleep(10000)
-            #     # print("capturing and uploading image")
-            #     # capture_and_upload_image(read_identification, counter, last_file_file)
-            # finally:
-            #     print("stopping event")
-            #     stop_event.set()
-            #     print("joining led thread")
-            #     led_thread.join()
-            #     print("cycle completed")
+        #     # try:
+        #     #     time.sleep(10000)
+        #     #     # print("capturing and uploading image")
+        #     #     # capture_and_upload_image(read_identification, counter, last_file_file)
+        #     # finally:
+        #     #     print("stopping event")
+        #     #     stop_event.set()
+        #     #     print("joining led thread")
+        #     #     led_thread.join()
+        #     #     print("cycle completed")
 
-            led_animation()
+        #     led_animation()
 
-            #capture_and_upload_image(counter, last_file_file)
+        #     #capture_and_upload_image(counter, last_file_file)
 
-            # run_task()
+        #     # run_task()
             
-            # t = threading.Thread(target=run_task)
-            # t.start()
+        #     # t = threading.Thread(target=run_task)
+        #     # t.start()
             
-            # # Do something else while waiting
-            #  # Start pulsing as a background process
-            # pulse_process = subprocess.Popen(['python3', pulse_script])
+        #     # # Do something else while waiting
+        #     #  # Start pulsing as a background process
+        #     # pulse_process = subprocess.Popen(['python3', pulse_script])
             
-            # # Wait while the image upload is happening
-            # while t.is_alive():
-            #     print("Waiting...")
-            #     time.sleep(0.1)
+        #     # # Wait while the image upload is happening
+        #     # while t.is_alive():
+        #     #     print("Waiting...")
+        #     #     time.sleep(0.1)
             
-            # # Kill the pulse process after upload is done
-            # pulse_process.terminate()
-            # pulse_process.wait()
+        #     # # Kill the pulse process after upload is done
+        #     # pulse_process.terminate()
+        #     # pulse_process.wait()
 
             
-            # # Ensure the task is done
-            # t.join()
+        #     # # Ensure the task is done
+        #     # t.join()
 
-            #print("Result:", result)
-            run_script(blink_script)
-            time.sleep(0.2)  # Debounce delay to prevent multiple detections
-            # Continue looping and checking for the next button press
-            time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
+        #     #print("Result:", result)
+        #     run_script(blink_script)
+        #     time.sleep(0.2)  # Debounce delay to prevent multiple detections
+        #     # Continue looping and checking for the next button press
+        #     time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
 
 except KeyboardInterrupt:
     print("Program stopped")
