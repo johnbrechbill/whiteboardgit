@@ -23,15 +23,14 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
 # Function to set brightness for all pixels
 def set_brightness(brightness):
+    pixels.fill((0, 0, 0))
+    pixels.show()
     brightness = max(0, min(255, brightness))  # Clamp to valid range
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
 def led_animation(stop_event):
     try:
-        print("clearing pixels 1")
-        pixels.fill((0, 0, 0))
-        pixels.show()
         while not stop_event.is_set():
             for i in range(0, 256, 2):
                 if stop_event.is_set():
