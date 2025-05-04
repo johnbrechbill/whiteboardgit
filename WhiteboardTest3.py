@@ -168,24 +168,25 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
 
-            # stop_event = threading.Event()
-            # print("set stop event")
-            # led_thread = threading.Thread(target=led_animation, args=(stop_event,))
-            # print("set led thread")
-            # led_thread.start()
-            # print ("started led thread")
+            stop_event = threading.Event()
+            print("set stop event")
+            led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+            print("set led thread")
+            led_thread.start()
+            print ("started led thread")
 
-            # try:
-            #     print("capturing and uploading image")
-            #     capture_and_upload_image(read_identification, counter, last_file_file)
-            # finally:
-            #     print("stopping event")
-            #     stop_event.set()
-            #     print("joining led thread")
-            #     led_thread.join()
-            #     print("cycle completed")
+            try:
+                time.sleep(10000)
+                # print("capturing and uploading image")
+                # capture_and_upload_image(read_identification, counter, last_file_file)
+            finally:
+                print("stopping event")
+                stop_event.set()
+                print("joining led thread")
+                led_thread.join()
+                print("cycle completed")
 
-            capture_and_upload_image(counter, last_file_file)
+            #capture_and_upload_image(counter, last_file_file)
 
             # run_task()
             
