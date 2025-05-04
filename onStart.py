@@ -23,7 +23,7 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
 # GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
 
-test_script=["/home/johnbrechbill/whiteboardgit/WhiteboardTest3.py"]
+test_script="/home/johnbrechbill/whiteboardgit/WhiteboardTest3.py"
 
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
