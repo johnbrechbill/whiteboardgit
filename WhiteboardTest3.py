@@ -41,14 +41,10 @@ def set_brightness(brightness):
 def led_animation(stop_event):
     while not stop_event.is_set():
         for i in range(0, 256, 2):
-            if stop_event.is_set():
-                print("stop event set")
-                break
-            print("setting brightness 1")
+            if stop_event.is_set(): break
             set_brightness(i)
             time.sleep(0.02)
         for i in range(255, -1, -2):
-            print("setting brightness 2")
             set_brightness(i)
             time.sleep(0.02)
 
@@ -176,7 +172,6 @@ try:
         print ("started led thread")
     
         try:
-            time.sleep(10000)
             print("capturing and uploading image")
             capture_and_upload_image(counter, last_file_file)
         finally:
@@ -189,50 +184,6 @@ try:
         # Wait for the button press (button will pull the pin to LOW when pressed)
         # if GPIO.input(BUTTON_PIN) == GPIO.LOW:
         #     print("Button Pressed")
-
-        #     # stop_event = threading.Event()
-        #     # print("set stop event")
-        #     # led_thread = threading.Thread(target=led_animation, args=(stop_event,))
-        #     # print("set led thread")
-        #     # led_thread.start()
-        #     # print ("started led thread")
-
-        #     # try:
-        #     #     time.sleep(10000)
-        #     #     # print("capturing and uploading image")
-        #     #     # capture_and_upload_image(read_identification, counter, last_file_file)
-        #     # finally:
-        #     #     print("stopping event")
-        #     #     stop_event.set()
-        #     #     print("joining led thread")
-        #     #     led_thread.join()
-        #     #     print("cycle completed")
-
-        #     led_animation()
-
-        #     #capture_and_upload_image(counter, last_file_file)
-
-        #     # run_task()
-            
-        #     # t = threading.Thread(target=run_task)
-        #     # t.start()
-            
-        #     # # Do something else while waiting
-        #     #  # Start pulsing as a background process
-        #     # pulse_process = subprocess.Popen(['python3', pulse_script])
-            
-        #     # # Wait while the image upload is happening
-        #     # while t.is_alive():
-        #     #     print("Waiting...")
-        #     #     time.sleep(0.1)
-            
-        #     # # Kill the pulse process after upload is done
-        #     # pulse_process.terminate()
-        #     # pulse_process.wait()
-
-            
-        #     # # Ensure the task is done
-        #     # t.join()
 
         #     #print("Result:", result)
         #     run_script(blink_script)
