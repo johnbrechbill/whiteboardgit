@@ -45,10 +45,8 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
             print("Button Pressed")
             run_script(test_script)
-            time.sleep(0.2)  # Debounce delay to prevent multiple detections
+            time.sleep(2)  # Debounce delay to prevent multiple detections
             # Continue looping and checking for the next button press
-            time.sleep(0.1)  # Small delay to prevent high CPU usage in the loop
-            break
 except KeyboardInterrupt:
     print("Program stopped")
 finally:
