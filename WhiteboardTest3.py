@@ -15,12 +15,33 @@ import neopixel
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
-from simplePulse import led_animation
 
 # Configure the NeoPixel
 pixel_pin = board.D18  
 num_pixels = 9
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels)
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
+
+# Function to set brightness for all pixels
+def set_brightness(brightness):
+    brightness = max(0, min(255, brightness))  # Clamp to valid range
+    pixels.fill((brightness, brightness, brightness))
+    pixels.show()
+
+def led_animation(stop_event):
+    try:
+        pixels.fill((0, 0, 0))
+        pixels.show()
+        while not stop_event.is_set():
+            for i in range(0, 256, 2):
+                if stop_event.is_set(): break
+                set_brightness(i)
+                time.sleep(0.02)
+            for i in range(255, -1, -2):
+                set_brightness(i)
+                time.sleep(0.02)
+    finally:
+        pixels.fill((0,0,0))
+        pixels.show()
 
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
