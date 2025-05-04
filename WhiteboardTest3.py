@@ -71,51 +71,6 @@ def run_script(script_name):
     except subprocess.CalledProcessError as e:
         return f"{script_name} failed with return code {e.returncode}:\n{e.stderr}"
 
-def capture_and_upload_image(read_identification, counter, last_file_file):
-    print("capture and upload image processing...")
-    # Read the identification prefix
-    identification_prefix = read_identification()
-
-    # Format the counter with leading zeros (e.g., a001, a002, etc.)
-    image_mark = f"{identification_prefix}{counter}"
-
-    # Image path where the flipped image will be stored
-    image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
-
-    # Run libcamera-still with adjusted quality and shutter speed
-    subprocess.run([
-        "libcamera-still",
-        "-o", image_path,
-        "--autofocus-mode", "continuous",
-        "--quality", "100",             # Set JPEG quality to maximum
-        "--shutter", "200000",
-        "--hdr", "auto",
-    ])
-
-    # Save the current image path as the last file
-    with open(last_file_file, 'w') as file:
-        file.write(image_path)
-
-    # Cloudinary configuration
-    cloudinary.config(
-        cloud_name="db6fegsqa",
-        api_key="428688153637693",
-        api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
-    )
-
-    # Upload the image with the preset effect
-    response = cloudinary.uploader.upload(
-        image_path,
-        public_id=image_mark,
-        upload_preset="PerspectiveAuto"
-    )
-
-    # Get the URL of the transformed image
-    url, options = cloudinary_url(image_mark)
-
-    print("Transformed Image URL:", url)
-    return url
-
 
 print("Waiting for button press...")
 
@@ -142,6 +97,61 @@ def read_identification():
             return file.read().strip()
     return 'none'  # Default prefix if the file doesn't exist
 
+def capture_and_upload_image(counter, last_file_file):
+    print("capture and upload image processing...")
+    # Read the identification prefix
+    identification_prefix = read_identification()
+
+    print("read identification prefix")
+    
+    # Format the counter with leading zeros (e.g., a001, a002, etc.)
+    image_mark = f"{identification_prefix}{counter}"
+
+    print("image marked")
+
+    # Image path where the flipped image will be stored
+    image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
+
+    # Run libcamera-still with adjusted quality and shutter speed
+    subprocess.run([
+        "libcamera-still",
+        "-o", image_path,
+        "--autofocus-mode", "continuous",
+        "--quality", "100",             # Set JPEG quality to maximum
+        "--shutter", "200000",
+        "--hdr", "auto",
+    ])
+
+    print("ran subprocess")
+
+    # Save the current image path as the last file
+    with open(last_file_file, 'w') as file:
+        file.write(image_path)
+
+    print("wrote to file")
+
+    # Cloudinary configuration
+    cloudinary.config(
+        cloud_name="db6fegsqa",
+        api_key="428688153637693",
+        api_secret="nw2mtJx8oAVuxnTQmDxyDQ63we4"
+    )
+
+    # Upload the image with the preset effect
+    response = cloudinary.uploader.upload(
+        image_path,
+        public_id=image_mark,
+        upload_preset="PerspectiveAuto"
+    )
+
+    print("uploaded image")
+
+    # Get the URL of the transformed image
+    url, options = cloudinary_url(image_mark)
+
+    print("Transformed Image URL:", url)
+    return url
+    
 # def run_task():
 #     global result
 #     result = capture_and_upload_image(read_identification, counter, last_file_file)
@@ -175,7 +185,7 @@ try:
             #     led_thread.join()
             #     print("cycle completed")
 
-            capture_and_upload_image(read_identification, counter, last_file_file)
+            capture_and_upload_image(counter, last_file_file)
 
             # run_task()
             
