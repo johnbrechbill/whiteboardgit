@@ -173,7 +173,8 @@ if os.path.exists(last_file_file):
         os.remove(last_image_path)
 try:
     while True:
-        led_animation()
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            led_animation()
         # Wait for the button press (button will pull the pin to LOW when pressed)
         # if GPIO.input(BUTTON_PIN) == GPIO.LOW:
         #     print("Button Pressed")
