@@ -27,17 +27,6 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-# def led_animation():
-#     while True:
-#         for i in range(0, 256, 2):
-#             print("setting brightness up:", i)
-#             set_brightness(i)
-#             time.sleep(0.02)
-#         for i in range(255, -1, -2):
-#             print("setting brightness down:", i)
-#             set_brightness(i)
-#             time.sleep(0.02)
-
 def led_animation(stop_event):
     while not stop_event.is_set():
         for i in range(0, 256, 2):
@@ -52,11 +41,8 @@ def led_animation(stop_event):
 BUTTON_PIN = 23  # Pin 23 for the button
 
 blink_script="/home/johnbrechbill/whiteboardgit/simpleBlink.py"
-
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
-
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
-
 identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
@@ -69,9 +55,6 @@ def run_script(script_name):
         return f"{script_name} succeeded:\n{result.stdout}"
     except subprocess.CalledProcessError as e:
         return f"{script_name} failed with return code {e.returncode}:\n{e.stderr}"
-
-
-print("Waiting for button press...")
 
 # Function to read the current counter value
 def read_counter():
@@ -151,10 +134,6 @@ def capture_and_upload_image(counter, last_file_file):
     print("Transformed Image URL:", url)
     return url
     
-# def run_task():
-#     global result
-#     result = capture_and_upload_image(read_identification, counter, last_file_file)
-
 # Delete the previous file if it exists
 if os.path.exists(last_file_file):
     with open(last_file_file, 'r') as file:
