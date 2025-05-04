@@ -29,17 +29,23 @@ def set_brightness(brightness):
 
 def led_animation(stop_event):
     try:
+        print("clearing pixels 1")
         pixels.fill((0, 0, 0))
         pixels.show()
         while not stop_event.is_set():
             for i in range(0, 256, 2):
-                if stop_event.is_set(): break
+                if stop_event.is_set():
+                    print("stop event set")
+                    break
+                print("setting brightness 1")
                 set_brightness(i)
                 time.sleep(0.02)
             for i in range(255, -1, -2):
+                print("setting brightness 2")
                 set_brightness(i)
                 time.sleep(0.02)
     finally:
+        print("clearing pixels 2")
         pixels.fill((0,0,0))
         pixels.show()
 
@@ -67,6 +73,7 @@ def run_script(script_name):
         return f"{script_name} failed with return code {e.returncode}:\n{e.stderr}"
 
 def capture_and_upload_image(read_identification, counter, last_file_file):
+    print("capture and upload image processing...")
     # Read the identification prefix
     identification_prefix = read_identification()
 
@@ -153,14 +160,21 @@ try:
             print("Button Pressed")
 
             stop_event = threading.Event()
+            print("set stop event")
             led_thread = threading.Thread(target=led_animation, args=(stop_event,))
+            print("set led thread")
             led_thread.start()
+            print ("started led thread")
 
             try:
+                print("capturing and uploading image")
                 capture_and_upload_image(read_identification, counter, last_file_file)
             finally:
+                print("stopping event")
                 stop_event.set()
+                print("joining led thread")
                 led_thread.join()
+                print("cycle completed")
 
             # run_task()
             
