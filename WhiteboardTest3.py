@@ -59,9 +59,9 @@ def simple_blink():
 BUTTON_PIN = 23  # Pin 23 for the button
 
 blink_script="/home/johnbrechbill/whiteboardgit/simpleBlink.py"
-last_file_file = "/home/johnbrechbill/photos/last_file.txt"
-counter_file = "/home/johnbrechbill/info/counter.txt"
-identification_file = "/home/johnbrechbill/info/identification.txt"
+last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
+counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
+identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
