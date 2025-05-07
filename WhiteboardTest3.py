@@ -31,61 +31,15 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-def simple_pulse(pixels, stop_event):
-    # RGB colors: Pink, Purple, Blue
-    colors = [
-        (255, 20, 147),   # Pink
-        (128, 0, 128),    # Purple
-        (0, 0, 255),      # Blue
-    ]
-    
-    num_pixels = len(pixels)
-    color_index = 0
-
-    print("Starting pulse loop...")
-    
+def simple_pulse(stop_event):
     while not stop_event.is_set():
-        c1 = colors[color_index]
-        c2 = colors[(color_index + 1) % len(colors)]
-
-        # Fade up
-        for i in range(0, 256, 4):
-            if stop_event.is_set():
-                break
-            blend = i / 255.0
-            r = int(c1[0] * (1 - blend) + c2[0] * blend)
-            g = int(c1[1] * (1 - blend) + c2[1] * blend)
-            b = int(c1[2] * (1 - blend) + c2[2] * blend)
-
-            # Scale color by brightness
-            brightness = i / 255.0
-            r_b = int(r * brightness)
-            g_b = int(g * brightness)
-            b_b = int(b * brightness)
-
-            pixels.fill((r_b, g_b, b_b))
-            pixels.show()
-            time.sleep(0.01)
-
-        # Fade down
-        for i in range(255, -1, -4):
-            if stop_event.is_set():
-                break
-            blend = i / 255.0
-            r = int(c1[0] * (1 - blend) + c2[0] * blend)
-            g = int(c1[1] * (1 - blend) + c2[1] * blend)
-            b = int(c1[2] * (1 - blend) + c2[2] * blend)
-
-            brightness = i / 255.0
-            r_b = int(r * brightness)
-            g_b = int(g * brightness)
-            b_b = int(b * brightness)
-
-            pixels.fill((r_b, g_b, b_b))
-            pixels.show()
-            time.sleep(0.01)
-
-        color_index = (color_index + 1) % len(colors)
+        for i in range(0, 256, 2):
+            if stop_event.is_set(): break
+            set_brightness(i)
+            time.sleep(0.02)
+        for i in range(255, -1, -2):
+            set_brightness(i)
+            time.sleep(0.02)
 
 
 def simple_blink():    
