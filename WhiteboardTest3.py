@@ -31,15 +31,44 @@ def set_brightness(brightness):
     pixels.fill((brightness, brightness, brightness))
     pixels.show()
 
-def simple_pulse(stop_event):
+def simple_pulse(pixels, stop_event):
+    # Define RGB colors for pink, purple, blue
+    colors = [
+        (255, 20, 147),  # Pink
+        (128, 0, 128),   # Purple
+        (0, 0, 255),     # Blue
+    ]
+    
+    color_index = 0
+
     while not stop_event.is_set():
-        for i in range(0, 256, 2):
+        # Get current and next color
+        c1 = colors[color_index]
+        c2 = colors[(color_index + 1) % len(colors)]
+
+        # Pulse up
+        for i in range(0, 256, 4):
             if stop_event.is_set(): break
-            set_brightness(i)
+            blend = i / 255.0
+            r = int(c1[0] * (1 - blend) + c2[0] * blend)
+            g = int(c1[1] * (1 - blend) + c2[1] * blend)
+            b = int(c1[2] * (1 - blend) + c2[2] * blend)
+            pixels.fill((r, g, b))
+            pixels.show()
             time.sleep(0.02)
-        for i in range(255, -1, -2):
-            set_brightness(i)
+
+        # Pulse down
+        for i in range(255, -1, -4):
+            if stop_event.is_set(): break
+            blend = i / 255.0
+            r = int(c1[0] * (1 - blend) + c2[0] * blend)
+            g = int(c1[1] * (1 - blend) + c2[1] * blend)
+            b = int(c1[2] * (1 - blend) + c2[2] * blend)
+            pixels.fill((r, g, b))
+            pixels.show()
             time.sleep(0.02)
+
+        color_index = (color_index + 1) % len(colors)
 
 def simple_blink():    
     # Zoom across: progressively light more pixels
