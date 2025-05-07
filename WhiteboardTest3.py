@@ -21,33 +21,42 @@ pixel_pin = board.D18
 num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
+# Global brightness multiplier (0.0 to 1.0)
+BRIGHTNESS = 0.5  # Adjust this to control overall brightness
+
 # Clear any existing LED state on startup
 pixels.fill((0, 0, 0))
 pixels.show()
 
-# Function to set brightness for all pixels
-def set_brightness(brightness):
-    brightness = max(0, min(255, brightness))  # Clamp to valid range
-    pixels.fill((brightness, brightness, brightness))
+# Function to apply global brightness
+def apply_brightness(color):
+    return tuple(int(c * BRIGHTNESS) for c in color)
+
+# Function to set all pixels to a single RGB color, with brightness applied
+def set_color(color):
+    pixels.fill(apply_brightness(color))
     pixels.show()
 
 def simple_pulse(stop_event):
     while not stop_event.is_set():
+        # Fade in
         for i in range(0, 256, 2):
             if stop_event.is_set(): break
-            set_brightness(i)
+            color = (i, 0, 255 - i)  # Red to Blue
+            set_color(color)
             time.sleep(0.02)
+        # Fade out
         for i in range(255, -1, -2):
-            set_brightness(i)
+            color = (0, i, 255 - i)  # Green to Blue
+            set_color(color)
             time.sleep(0.02)
-
 
 def simple_blink():    
     # Zoom across: progressively light more pixels
     for i in range(num_pixels):
-        pixels[i] = (255, 255, 255)  # Light the next pixel
-        pixels.show()      # Update the strip
-        time.sleep(0.05)   # Speed of zooming
+        pixels[i] = apply_brightness((255, 255, 255))  # Light the next pixel
+        pixels.show()
+        time.sleep(0.05)
     
     # Hold full-on state for half a second
     time.sleep(0.5)
@@ -55,6 +64,7 @@ def simple_blink():
     # Turn all pixels off
     pixels.fill((0, 0, 0))
     pixels.show()
+
 
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
