@@ -23,3 +23,10 @@ fi
 # Run the main script
 echo "[$(date)] Starting Python script..." >> $LOG
 sudo python3 "$REPO_DIR/onStart.py" >> $LOG 2>&1
+
+#old code
+# #!/bin/bash
+#source ~/.bashrc
+#cd /home/johnbrechbill/whiteboardgit
+#git pull origin main
+#sudo python3 /home/johnbrechbill/whiteboardgit/onStart.py
