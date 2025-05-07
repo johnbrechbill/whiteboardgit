@@ -38,18 +38,33 @@ def set_color(color):
     pixels.show()
 
 def simple_pulse(stop_event):
+    base_colors = [
+        (255, 0, 0),    # Red
+        (0, 255, 0),    # Green
+        (0, 0, 255),    # Blue
+    ]
+    color_index = 0
+
     while not stop_event.is_set():
+        base_color = base_colors[color_index]
+        
         # Fade in
         for i in range(0, 256, 2):
-            if stop_event.is_set(): break
-            color = (i, 0, 255 - i)  # Red to Blue
+            if stop_event.is_set(): return
+            scale = i / 255.0
+            color = tuple(int(c * scale) for c in base_color)
             set_color(color)
             time.sleep(0.02)
+        
         # Fade out
         for i in range(255, -1, -2):
-            color = (0, i, 255 - i)  # Green to Blue
+            if stop_event.is_set(): return
+            scale = i / 255.0
+            color = tuple(int(c * scale) for c in base_color)
             set_color(color)
             time.sleep(0.02)
+
+        color_index = (color_index + 1) % len(base_colors)
 
 def simple_blink():    
     # Zoom across: progressively light more pixels
