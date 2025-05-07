@@ -22,7 +22,7 @@ num_pixels = 9
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, auto_write=False)
 
 # Global brightness multiplier (0.0 to 1.0)
-BRIGHTNESS = 0.1  # Adjust this to control overall brightness
+BRIGHTNESS = 0.8  # Adjust this to control overall brightness
 
 # Clear any existing LED state on startup
 pixels.fill((0, 0, 0))
