@@ -27,7 +27,7 @@ BUTTON_PIN = 23  # BCM pin number
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-test_script = "/home/johnbrechbill/whiteboardgit/WhiteboardTest3.py"
+test_script = "/home/johnbrechbill/whiteboardgit/main.py"
 
 # Function to run external script and stream output
 def run_script(script_name):
