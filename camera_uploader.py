@@ -19,9 +19,7 @@ def capture_and_upload_image(counter):
     image_mark = f"{prefix}{counter}"
     image_path = f"/home/johnbrechbill/whiteboard/{image_mark}.jpg"
 
-    print("running subprocess")
-
-    subprocess.run([
+    process = subprocess.Popen([
         "libcamera-still",
         "-o", image_path,
         "--autofocus-mode", "continuous",
@@ -29,15 +27,13 @@ def capture_and_upload_image(counter):
         "--shutter", "200000",
         "--hdr", "auto",
     ])
-
-    print("opening last file")
+    
+    process.wait()
 
     with open(LAST_FILE, 'w') as file:
         file.write(image_path)
 
     cloudinary.config(**CLOUDINARY_CONFIG)
-
-    print("uploading image")
 
     response = cloudinary.uploader.upload(
         image_path,
