@@ -84,7 +84,6 @@ def simple_blink():
 #GPIO setup
 BUTTON_PIN = 23  # Pin 23 for the button
 
-blink_script="/home/johnbrechbill/whiteboardgit/simpleBlink.py"
 last_file_file = "/home/johnbrechbill/whiteboard/last_file.txt"
 counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
 identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
@@ -111,10 +110,6 @@ def read_counter():
 def update_counter(counter):
     with open(counter_file, 'w') as file:
         file.write(str(counter))
-
-# Increment the counter
-counter = read_counter() + 1
-update_counter(counter)
 
 # Function to read the identification prefix
 def read_identification():
@@ -190,7 +185,9 @@ try:
     led_thread.start()
 
     try:
+        counter = read_counter() + 1
         capture_and_upload_image(counter, last_file_file)
+        update_counter(counter)
     finally:
         stop_event.set()
         led_thread.join()
