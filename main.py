@@ -25,8 +25,8 @@ try:
 
     try:
         counter = read_counter() + 1
-        update_counter(counter)
         capture_and_upload_image(counter)
+        update_counter(counter)
     finally:
         stop_event.set()
         led_thread.join()
