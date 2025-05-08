@@ -30,7 +30,7 @@ def wait_for_button(script_to_run):
     try:
         while True:
             if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-                print("Button Pressed")
+                print("Button pressed")
                 output = run_script(script_to_run)
                 print(output)
                 time.sleep(2)  # debounce
