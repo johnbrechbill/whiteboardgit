@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
