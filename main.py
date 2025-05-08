@@ -25,8 +25,13 @@ try:
 
     try:
         counter = read_counter() + 1
-        capture_and_upload_image(counter)
-        update_counter(counter)
+        # Only update the counter if capture and upload succeeds
+        try:
+            capture_and_upload_image(counter)
+        except Exception as e:
+            print(f"Error during capture/upload: {e}")
+        else:
+            update_counter(counter)
     finally:
         stop_event.set()
         led_thread.join()
