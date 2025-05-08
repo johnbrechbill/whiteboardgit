@@ -11,7 +11,7 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from config import LAST_FILE, CLOUDINARY_CONFIG, UPLOAD_PRESET
-from gpio_handler import read_identification, read_counter # temporarily added read_counter for testing
+from gpio_handler import read_identification
 
 def capture_and_upload_image(counter):
     print("capture and upload image processing...")
@@ -49,7 +49,3 @@ def capture_and_upload_image(counter):
             os.remove(last_image_path)
 
     return url
-
-# temporarily added for testing
-counter = read_counter() + 1
-capture_and_upload_image(counter)
