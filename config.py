@@ -9,7 +9,7 @@ BRIGHTNESS = 0.8
 BUTTON_PIN = 23
 
 # Paths
-BLINK_SCRIPT = "/home/johnbrechbill/whiteboardgit/simpleBlink.py"
+TEST_SCRIPT = "/home/johnbrechbill/whiteboardgit/main.py"
 LAST_FILE = "/home/johnbrechbill/whiteboard/last_file.txt"
 COUNTER_FILE = "/home/johnbrechbill/whiteboard/counter.txt"
 IDENTIFICATION_FILE = "/home/johnbrechbill/whiteboard/identification.txt"
