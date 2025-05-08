@@ -39,9 +39,11 @@ def set_color(color):
 
 def simple_pulse(stop_event):
     base_colors = [
-        (255, 0, 0),    # Red
-        (0, 255, 0),    # Green
-        (0, 0, 255),    # Blue
+        (255, 0, 50),    
+        (255, 0, 100),    
+        (255, 0, 150),
+        (255, 0, 200), 
+        (255, 0, 250), 
     ]
     color_index = 0
 
@@ -69,7 +71,7 @@ def simple_pulse(stop_event):
 def simple_blink():    
     # Zoom across: progressively light more pixels
     for i in range(num_pixels):
-        pixels[i] = apply_brightness((255, 255, 255))  # Light the next pixel
+        pixels[i] = apply_brightness((100, 255, 50))  # Light the next pixel
         pixels.show()
         time.sleep(0.05)
     
