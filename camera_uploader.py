@@ -1,5 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
 import os
 import subprocess
+
+sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
+
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
