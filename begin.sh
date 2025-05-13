@@ -10,7 +10,7 @@ REPO_URL="https://github.com/johnbrechbill/whiteboardgit.git"
 # Function to reset repo if corrupted
 reset_repo() {
     echo "Resetting corrupted repository..."
-    rm -rf "$REPO_DIR"
+    sudo rm -rf "$REPO_DIR"
     git clone "$REPO_URL" "$REPO_DIR"
 }
 
