@@ -93,6 +93,7 @@ identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
 
+
 # Test Function To Run Script
 def run_script(script_name):
     try:
