@@ -39,11 +39,11 @@ def set_color(color):
 
 def simple_pulse(stop_event):
     base_colors = [
-        (255, 255, 250),    
-        (255, 255, 250),    
-        (255, 255, 250),
+        (255, 0, 250),    
+        (255, 50, 250),    
+        (255, 150, 250),
+        (255, 200, 250), 
         (255, 255, 250), 
-        (255, 0, 250), 
     ]
     color_index = 0
 
@@ -91,7 +91,7 @@ counter_file = "/home/johnbrechbill/whiteboard/counter.txt"
 identification_file = "/home/johnbrechbill/whiteboard/identification.txt"
 
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set pin 23 as input with pull-up resistor
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Set pin 23 as input with pull-down resistor
 
 # Test Function To Run Script
 def run_script(script_name):
