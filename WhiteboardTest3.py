@@ -183,18 +183,32 @@ if os.path.exists(last_file_file):
     if os.path.exists(last_image_path):
         os.remove(last_image_path)
 try:
-    stop_event = threading.Event()
-    led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
-    led_thread.start()
+    last_pressed = 0
+    debounce_time = 0.2  # seconds
 
-    try:
-        counter = read_counter() + 1
-        capture_and_upload_image(counter, last_file_file)
-        update_counter(counter)
-    finally:
-        stop_event.set()
-        led_thread.join()
-        simple_blink()
+    while True:
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            if time.time() - last_pressed > debounce_time:
+                print("Button pressed!")
+
+                # Start the pulsing LED animation in a thread
+                stop_event = threading.Event()
+                led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
+                led_thread.start()
+
+                try:
+                    counter = read_counter() + 1
+                    capture_and_upload_image(counter, last_file_file)
+                    update_counter(counter)
+                finally:
+                    stop_event.set()
+                    led_thread.join()
+                    simple_blink()
+
+                last_pressed = time.time()
+
+        time.sleep(0.01)  # 10ms polling delay
+
 except KeyboardInterrupt:
     pixels.fill((0, 0, 0))
     pixels.show()
