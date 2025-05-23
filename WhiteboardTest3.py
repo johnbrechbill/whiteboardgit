@@ -182,8 +182,7 @@ if os.path.exists(last_file_file):
         last_image_path = file.read().strip()
     if os.path.exists(last_image_path):
         os.remove(last_image_path)
-def on_button_press(channel):
-    print("Button pressed!")
+try:
     stop_event = threading.Event()
     led_thread = threading.Thread(target=simple_pulse, args=(stop_event,))
     led_thread.start()
@@ -196,17 +195,7 @@ def on_button_press(channel):
         stop_event.set()
         led_thread.join()
         simple_blink()
-
-# Setup event detection with debounce
-GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=on_button_press, bouncetime=200)
-
-print("Waiting for button press... (Press Ctrl+C to exit)")
-try:
-    while True:
-        time.sleep(1)  # Keep the script alive to detect button presses
 except KeyboardInterrupt:
-    print("Exiting...")
-finally:
     pixels.fill((0, 0, 0))
     pixels.show()
     GPIO.cleanup()
