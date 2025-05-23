@@ -60,6 +60,7 @@ try:
                 print("Button Pressed")
                 output = run_script(test_script)
                 print(output)
+                time.sleep(2)
         time.sleep(0.01)
 except KeyboardInterrupt:
     print("Program stopped")
