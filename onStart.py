@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO
 import subprocess
 import time
 
-sys.path.append('/usr/lib/python3/dist-packages')  # Add system-wide packages path
+sys.path.append('/usr/lib/python3/dist-packages')
 sys.path.append('/home/johnbrechbill/whiteboard/lib/python3.11/site-packages')
 
 import board
@@ -36,10 +36,10 @@ def run_script(script_name):
             ['python3', script_name],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            universal_newlines=True  # equivalent to text=True in Python 3.7+
+            universal_newlines=True
         )
         for line in process.stdout:
-            print(line, end='')  # stream each line to terminal
+            print(line, end='')
         process.wait()
         return f"{script_name} exited with code {process.returncode}"
     except Exception as e:
@@ -47,13 +47,20 @@ def run_script(script_name):
 
 print("Waiting for button press...")
 
+# Debounce setup
+last_pressed = 0
+debounce_time = 0.3  # 300 ms
+
 try:
     while True:
         if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            print("Button Pressed")
-            output = run_script(test_script)
-            print(output)
-            time.sleep(2)  # debounce
+            current_time = time.time()
+            if current_time - last_pressed > debounce_time:
+                last_pressed = current_time
+                print("Button Pressed")
+                output = run_script(test_script)
+                print(output)
+        time.sleep(0.01)
 except KeyboardInterrupt:
     print("Program stopped")
 finally:
