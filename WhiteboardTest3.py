@@ -142,8 +142,8 @@ def capture_and_upload_image(counter, last_file_file):
         "-o", image_path,
         "--autofocus-mode", "continuous",
         "--quality", "100",             # Set JPEG quality to maximum
-        "--shutter", "200000",
         "--hdr", "auto",
+        "--timeout", "1500",    
     ])
 
     print("ran subprocess")
